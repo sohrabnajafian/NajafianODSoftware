@@ -7,8 +7,14 @@ function functionDipoleFourierSoftware(condition,handles)
 %   To measure the resize value for each map I used the excel sheet that
 %   has the value of mean width for all the animals 
 
-load('D:/Thalamocortical project/1 analysis/database_modified040418.mat') % some convolution masks are omitted because of OD map generation problem
+%load('database_modified040418.mat') % some convolution masks are omitted because of OD map generation problem
 
+load('DatabaseLengthNorm.mat')
+load('DatabaseNregion.mat')
+load('DatabaseWidth.mat')
+load('DatabaseOrientation.mat')
+load('DatabaseResult.mat')
+load('DatabaseTitle.mat')
 
 %Control parameter
 save_patches = 0;
@@ -291,7 +297,8 @@ for i = 1:size(row_range,2)-1 % 6 for histogram analysis (step size 5), 3 for st
                     
                     if ( sum(sum(selected_region))>3 ) % to remove noises
                         num_stripes = num_stripes + 1;
-                        [n_point,angle_line,thick] = horton_stripes_info4(selected_region);
+                        %[n_point,angle_line,thick] = horton_stripes_info4(selected_region);
+                        [n_point,angle_line,thick] = horton_stripes_info2(selected_region);
                         
                         patch_npoint(i_L) = n_point;
                         patch_orientation(i_L) = mean(angle_line);

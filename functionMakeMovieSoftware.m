@@ -13,19 +13,19 @@ Condition = handles.Condition;
 
 if Condition(1) == 1
     
-    load('workspaceHumanfig3.mat')
+    load('workspaceHumanfig3.mat');
     surrounding_exclude_scalebar = surrounding;
     %surrounding_exclude_scalebar(1056:1062,65:281) = 0;
     ODImage = input_bw.*v1_region*2 + surrounding_exclude_scalebar;
     
 elseif Condition(2) == 1
     
-    load('workspaceMacaque.mat')
+    load('workspaceMacaque.mat');
     ODImage = input_bw.*v1_region*2 + surrounding;
     
 elseif Condition(3) == 1
     
-    load('workspaceCat.mat')
+    load('workspaceCat.mat');
     ODImage = input_bw.*v1_region*2 + surrounding;
     
 end
@@ -48,7 +48,7 @@ for i_ipsi  = 1:N_region_ipsi%1:10%
     selected_region = L_ipsi  == i_ipsi ;
     %figure,imshow(selected_region)
     
-    if ( sum(sum(selected_region))>10 ) % to remove noises
+    if ( sum(sum(selected_region))>100 ) % to remove noises
         
             angle_line = output_orientation_ipsi{i_ipsi};
             thick = output_thickness_ipsi{i_ipsi};
@@ -103,13 +103,12 @@ for i_ipsi  = 1:N_region_ipsi%1:10%
             %pic_name = myFiles(sorted_ind_ipsi(k)).name ;
             %openfig([dir '\' pic_name]);
             frame = getframe(gcf);
-            frameTemp = frame.cdata; 
-            %frame.cdata = imresize(frame.cdata,[1043 1904] );
-            frame.cdata = frameTemp(1:770,380:1025,:);  %  figure,imshow(frame.cdata)
+            %frameTemp = frame.cdata; 
+            %frame.cdata = frameTemp(1:770,380:1025,:);  %  figure,imshow(frame.cdata)
             writeVideo(v,frame);
             %close all
             
- 
+            pause(.1)
     end
 
 end
@@ -122,7 +121,7 @@ for i_contra = 1:N_region_contra%%6
     selected_region = L_contra == i_contra;
     %figure,imshow(selected_region)
     
-    if ( sum(sum(selected_region))>10 ) % to remove noises
+    if ( sum(sum(selected_region))>100 ) % to remove noises
         
             angle_line = output_orientation_contra{i_contra};
             thick = output_thickness_contra{i_contra};
@@ -132,7 +131,7 @@ for i_contra = 1:N_region_contra%%6
             imagesc(ODImage)
             colormap([0 0 0;0.7 0.7 0.7;1 1 1])
             axis off
-            text(90, 1010,'10 mm','fontsize',20)
+            %text(90, 1010,'10 mm','fontsize',20)
             title(sprintf('Contralateral Stripe %.0f, Length = %.0f pixels (%.2f mm)',i_contra,npoint_contra(i_contra),npoint_contra(i_contra)*pixel2um/1000),'fontsize',16)
             [selected_region_row,selected_region_col] = find(edge(selected_region));
             hold on, plot(selected_region_col,selected_region_row,'.r')
@@ -157,8 +156,8 @@ for i_contra = 1:N_region_contra%%6
             box(ax_width,'off')
             
             cla(handles.axesOrientation)
-            axes(handles.axesOrientation);
             set(handles.axesOrientation,'visible','on')
+            axes(handles.axesOrientation);
             angle_line_0_180 = angle_line .* (angle_line>0) + (angle_line+180) .* (angle_line<0);
             angle_line_full_range_C = cat(2,angle_line_0_180,angle_line_0_180+180);
             [frequency_contra,bin_edge_contra] = histcounts(angle_line_full_range_C * (pi/180) ,edge_range * (pi/180),'Normalization','Probability'); %edge is the bar start and end points
@@ -169,12 +168,11 @@ for i_contra = 1:N_region_contra%%6
             
 
             frame = getframe(gcf);
-            frameTemp = frame.cdata; 
-            %frame.cdata = imresize(frame.cdata,[1043 1904] );
-            frame.cdata = frameTemp(1:770,380:1025,:);  %  figure,imshow(frame.cdata)
+            %frameTemp = frame.cdata; 
+            %frame.cdata = frameTemp(1:770,380:1025,:);  %  figure,imshow(frame.cdata)
             writeVideo(v,frame);
              
-             
+             pause(.1)
     end
     
 end
